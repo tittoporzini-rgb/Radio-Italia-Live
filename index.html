@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Radio Italia Live</title>
+<meta name="description" content="Scopri e ascolta le radio italiane in streaming.">
+<style>
+:root{--bg:#0B0B0F;--card:22 22 29;--fg:#fff;--mut:#9ca3af;--acc:#7C3AED;--pink:#EC4899}
+html.light{--bg:#F6F5FA;--card:255 255 255;--fg:#14141A;--mut:#5b5b6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px system-ui,sans-serif;padding-bottom:90px}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(600px 420px at 12% 8%,rgba(124,58,237,.38),transparent 60%),radial-gradient(520px 420px at 88% 18%,rgba(236,72,153,.3),transparent 60%),radial-gradient(760px 520px at 50% 105%,rgba(124,58,237,.2),transparent 60%);animation:drift 14s ease-in-out infinite alternate}
+html.light body:before{opacity:.45}
+@keyframes drift{to{transform:translate3d(0,-30px,0) scale(1.08)}}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes wave{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{opacity:.3}}
+a{color:inherit;text-decoration:none}button,input,select{font:inherit;color:inherit}button{cursor:pointer;background:none;border:0}
+.wrap{max-width:1152px;margin:auto;padding:0 16px}
+.glass{background:rgb(var(--card)/.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgb(128 128 128/.18)}
+.mut{color:var(--mut)}.grad{background:linear-gradient(90deg,#a78bfa,#EC4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+header{position:sticky;top:0;z-index:40;border-width:0 0 1px}
+nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;max-width:1152px;margin:auto;flex-wrap:wrap}
+nav .brand{font-weight:800;font-size:1.15rem;white-space:nowrap}
+nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}nav ul a{color:var(--mut)}nav ul a:hover,nav ul a.act{color:var(--pink);font-weight:600}
+.menu{display:none;font-size:1.4rem}.tools{display:flex;gap:6px}.tools button{font-size:1.2rem;padding:4px 8px}
+@media(max-width:768px){.menu{display:block}nav ul{display:none;flex-direction:column;width:100%;order:5;gap:4px}nav.open ul{display:flex}nav ul a{display:block;padding:12px 8px}}
+main{max-width:1152px;margin:auto;padding:32px 16px;animation:up .4s ease both}
+h1{font-size:2rem;margin:0 0 24px}h2{font-size:1.5rem;margin:28px 0 14px}
+.hero{text-align:center;padding:40px 0}.hero h1{font-size:clamp(2.4rem,7vw,4.4rem);font-weight:900;line-height:1.1;margin:18px 0}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:6px 16px;font-size:.9rem}
+.hero p{max-width:560px;margin:0 auto 30px;font-size:1.1rem}
+.sf{display:flex;gap:8px;max-width:640px;margin:auto}.sf input{flex:1;border-radius:99px;padding:16px 22px;background:rgb(var(--card));border:1px solid rgb(128 128 128/.25);outline:0}.sf input:focus{border-color:var(--acc)}
+.btn{background:linear-gradient(90deg,var(--acc),var(--pink));color:#fff;border-radius:99px;padding:0 26px;font-weight:700}
+.wf{display:flex;justify-content:center;align-items:flex-end;gap:6px;height:76px;margin-top:44px}.wf i{width:5px;height:72px;border-radius:9px;background:linear-gradient(#7C3AED,#EC4899);transform-origin:bottom;animation:wave 1.1s ease-in-out infinite}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.card{position:relative;overflow:hidden;border-radius:24px;padding:16px;box-shadow:0 10px 30px -12px rgba(0,0,0,.5);transition:transform .25s,box-shadow .25s;animation:up .4s ease both}
+.card:hover{transform:translateY(-5px)}.card.active{box-shadow:0 0 0 1.5px rgba(236,72,153,.75),0 14px 44px -12px rgba(124,58,237,.85)}.card.off{opacity:.6}
+.row{display:flex;align-items:center;gap:12px}.between{justify-content:space-between;margin-top:16px}.grow{flex:1;min-width:0}
+.card h3{margin:0;font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card p{margin:2px 0 0;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo{position:relative;width:56px;height:56px;flex:none;border-radius:16px;overflow:hidden;display:grid;place-items:center;color:#fff;font-weight:800;font-size:1.4rem}
+.logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:3px}
+.live{font-size:.72rem;font-weight:800;color:var(--pink);display:flex;align-items:center;gap:5px}.live i{width:8px;height:8px;border-radius:50%;background:var(--pink);animation:pulse 1.4s infinite}
+.eq{display:none;gap:2px;align-items:flex-end;height:16px}.eq i{width:3px;height:100%;border-radius:2px;background:linear-gradient(#EC4899,#7C3AED);transform-origin:bottom;animation:wave .9s ease-in-out infinite}.eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}.eq i:nth-child(4){animation-delay:.6s}
+.offl{display:none;font-size:.75rem;color:#f87171}
+.card.playing .eq{display:flex}.card.playing .live,.card.off .live{display:none}.card.off .offl{display:block}
+.chip{display:inline-block;background:rgba(124,58,237,.22);border-radius:99px;padding:4px 10px;font-size:.75rem;margin-right:5px}
+.fav{font-size:1.4rem;padding:6px 8px;color:var(--mut);transition:transform .2s}.fav:hover{transform:scale(1.25)}.fav.on{color:var(--pink)}
+.play{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--pink));color:#fff;font-size:1rem;display:grid;place-items:center;box-shadow:0 6px 18px rgba(236,72,153,.35);transition:transform .15s}.play:hover{transform:scale(1.1)}.play:active{transform:scale(.9)}
+.sp{width:18px;height:18px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+.bar-f{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}.bar-f select,.sw input{background:rgb(var(--card));border:1px solid rgb(128 128 128/.25);border-radius:12px;padding:12px;outline:0}
+.sw{position:relative;flex:1;min-width:240px}.sw input{width:100%;padding-right:38px}.sw button{position:absolute;right:10px;top:10px;font-size:1.1rem;color:var(--mut)}
+.more{display:block;margin:30px auto 0;background:rgb(var(--card));border:1px solid rgb(128 128 128/.25);border-radius:99px;padding:12px 28px}
+.empty{text-align:center;padding:70px 10px;color:var(--mut)}
+.sk{height:130px;border-radius:24px;background:rgb(var(--card)/.7);animation:pulse 1.4s infinite}
+.rg{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.rc{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;height:140px;border-radius:24px;padding:18px;color:#fff;background:linear-gradient(135deg,hsl(var(--h) 75% 48%/.7),hsl(calc(var(--h) + 55) 75% 38%/.4));border:1px solid rgba(255,255,255,.12);transition:transform .25s}
+.rc:hover{transform:translateY(-6px)}.rc b{font-size:1.1rem;position:relative}.rc span{font-size:.85rem;opacity:.85;position:relative}.rc em{position:absolute;right:6px;top:-26px;font-size:7rem;font-weight:900;font-style:normal;opacity:.16}
+.gg{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));margin-bottom:28px}
+.gc{border-radius:20px;padding:16px;color:#fff;background:linear-gradient(135deg,hsl(var(--h) 70% 45%/.6),hsl(calc(var(--h) + 50) 70% 35%/.35));border:1px solid rgba(255,255,255,.12);transition:transform .25s}
+.gc small{display:block;opacity:.85;font-size:.8rem;margin-top:2px}.gc:hover{transform:translateY(-4px)}.gc.sel{box-shadow:0 0 0 2px var(--pink),0 12px 30px -10px rgba(124,58,237,.9)}.gc big{display:block;font-size:2rem}
+footer{text-align:center;color:var(--mut);font-size:.85rem;padding:30px 16px;border-top:1px solid rgb(128 128 128/.2)}
+#player{position:fixed;left:0;right:0;bottom:0;z-index:50;border-width:1px 0 0;padding:10px 0}
+#player[hidden]{display:none}.prow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.pname{flex:1;min-width:0;text-align:left}.pname b,.pname small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pname small{color:var(--mut);font-size:.8rem}.pname small.e{color:#f87171}
+.extra{display:flex;align-items:center;gap:8px}#vol{width:110px;accent-color:var(--acc)}#player .eq.on{display:flex}#player .logo{width:42px;height:42px;font-size:1.1rem;border-radius:12px}
+#player button.i{font-size:1.25rem;padding:6px}#player button.i.on{color:var(--pink)}
+@media(max-width:640px){.extra{display:none;width:100%;order:9}#player.open .extra{display:flex}#share{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<header class="glass"><nav id="nav">
+  <a class="brand grad" href="#/">🎧 Radio Italia Live</a>
+  <ul><li><a href="#/">Home</a></li><li><a href="#/radio">Tutte le Radio</a></li><li><a href="#/regioni">Regioni</a></li><li><a href="#/generi">Generi</a></li><li><a href="#/preferiti">Preferiti</a></li><li><a href="#/cerca">Cerca</a></li></ul>
+  <div class="tools"><button id="theme" aria-label="Cambia tema">☀️</button><button class="menu" id="menu" aria-label="Menu" aria-expanded="false">☰</button></div>
+</nav></header>
+<main id="app"></main>
+<footer>© Radio Italia Live · I flussi appartengono alle rispettive emittenti.</footer>
+<div id="player" class="glass" hidden role="region" aria-label="Player"><div class="wrap prow">
+  <div class="logo" id="plogo"></div>
+  <button class="pname" id="pname" aria-label="Espandi player"><b id="pn"></b><small id="ps"></small></button>
+  <span class="eq" id="peq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  <div class="extra"><button class="i" id="mute" aria-label="Muto">🔊</button><input id="vol" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume"></div>
+  <button class="i" id="pfav" aria-label="Preferiti">♥</button><button class="i" id="share" aria-label="Condividi">⤴</button>
+  <button class="play" id="pplay" aria-label="Play">▶</button>
+</div></div>
+<script>
+"use strict";
+/* ============ Dati e utilità ============ */
+const REGIONS=["Lombardia","Lazio","Campania","Sicilia","Veneto","Piemonte","Emilia-Romagna","Toscana","Puglia","Calabria","Liguria","Sardegna","Marche","Abruzzo","Umbria","Basilicata","Molise","Trentino-Alto Adige","Friuli-Venezia Giulia","Valle d'Aosta"];
+const GENRES=["Pop","Rock","Dance","Hip Hop","Classica","News","Sport","Musica Italiana","Internazionale","Talk Radio","Urban","Jazz"];
+const EMO={Pop:"🎤",Rock:"🎸",Dance:"🎧","Hip Hop":"🎵",Classica:"🎼",News:"📰",Sport:"⚽","Musica Italiana":"🇮🇹",Internazionale:"🌍","Talk Radio":"🎙️",Urban:"🔥",Jazz:"🎹",Tutte:"📻",Varie:"🎶"};
+const GEO={Lombardia:"lombardy,milano,bergamo,brescia,como,cremona,lecco,lodi,mantova,monza,pavia,sondrio,varese,busto arsizio,legnano,cernusco,gallarate,vigevano,cantu,rho",Lazio:"roma,frosinone,rieti,viterbo,anzio,civitavecchia,fiumicino,tivoli,aprilia,terracina,cassino,ostia,castelli romani,pomezia",Campania:"napoli,avellino,benevento,caserta,salerno,pozzuoli,sorrento,pompei,capri,ischia,torre del greco,portici,nola,cilento,battipaglia,vesuvio",Sicilia:"sicily,palermo,catania,messina,agrigento,caltanissetta,enna,ragusa,siracusa,trapani,marsala,bagheria,modica,vittoria,acireale,mazara,sciacca,etna",Veneto:"venezia,belluno,padova,rovigo,treviso,verona,vicenza,mestre,chioggia,bassano,jesolo,schio,castelfranco,conegliano,cortina",Piemonte:"piedmont,torino,alessandria,asti,biella,cuneo,novara,verbania,vercelli,ivrea,pinerolo,domodossola,casale monferrato,langhe,saluzzo","Emilia-Romagna":"emilia romagna,bologna,ferrara,forli,cesena,modena,parma,piacenza,ravenna,reggio emilia,rimini,riccione,cesenatico,imola,carpi,faenza,romagna,sassuolo,cattolica,cervia",Toscana:"tuscany,firenze,arezzo,grosseto,livorno,lucca,massa,carrara,pisa,pistoia,prato,siena,viareggio,empoli,versilia,elba,montecatini,cecina,piombino",Puglia:"apulia,bari,brindisi,foggia,lecce,taranto,barletta,andria,trani,salento,gargano,altamura,manfredonia,molfetta,monopoli,martina franca,bisceglie,gallipoli",Calabria:"catanzaro,cosenza,crotone,reggio calabria,vibo valentia,lamezia,rossano,tropea,locri,corigliano,paola",Liguria:"genova,imperia,la spezia,spezia,savona,sanremo,chiavari,rapallo,albenga,ventimiglia,sestri,tigullio",Sardegna:"sardinia,cagliari,nuoro,oristano,sassari,olbia,alghero,carbonia,quartu,gallura,iglesias",Marche:"ancona,ascoli piceno,ascoli,macerata,pesaro,urbino,senigallia,fano,jesi,civitanova,san benedetto,fabriano",Abruzzo:"l'aquila,laquila,chieti,pescara,teramo,avezzano,lanciano,sulmona,montesilvano,giulianova,roseto",Umbria:"perugia,terni,assisi,spoleto,foligno,orvieto,gubbio,todi,citta di castello",Basilicata:"potenza,matera,melfi,policoro,lucania,lucano,lucana",Molise:"campobasso,isernia,termoli,venafro,molisana,molisano","Trentino-Alto Adige":"trento,bolzano,bozen,rovereto,merano,bressanone,trentino,alto adige,sudtirol,suedtirol,dolomiti,brunico,riva del garda","Friuli-Venezia Giulia":"trieste,udine,gorizia,pordenone,friuli,monfalcone,lignano,tolmezzo,cividale","Valle d'Aosta":"aosta,courmayeur,aoste,saint-vincent,cervinia"};
+const norm=t=>t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const GEO_RE=Object.fromEntries(Object.entries(GEO).map(([r,c])=>[r,new RegExp("(^|[^a-z])("+[norm(r),...c.split(",")].join("|")+")(?![a-z])")]));
+const GK=[["hip hop","Hip Hop"],["hiphop","Hip Hop"],["rap","Hip Hop"],["rock","Rock"],["metal","Rock"],["punk","Rock"],["dance","Dance"],["house","Dance"],["techno","Dance"],["club","Dance"],["electro","Dance"],["classic","Classica"],["opera","Classica"],["news","News"],["notizie","News"],["giornale radio","News"],["informazione","News"],["sport","Sport"],["calcio","Sport"],["jazz","Jazz"],["blues","Jazz"],["swing","Jazz"],["talk","Talk Radio"],["parlato","Talk Radio"],["urban","Urban"],["trap","Urban"],["r&b","Urban"],["pop","Pop"],["hits","Pop"],["italian","Musica Italiana"],["cantautori","Musica Italiana"],["internazional","Internazionale"],["english","Internazionale"],["world","Internazionale"],["latin","Internazionale"],["anni 60","Pop"],["anni 70","Pop"],["anni 80","Pop"],["anni 90","Pop"],["80s","Pop"],["90s","Pop"],["trance","Dance"],["edm","Dance"],["dnb","Dance"],["disco","Dance"],["klassik","Classica"],["mozart","Classica"],["bach","Classica"],["beethoven","Classica"],["barock","Classica"],["piano","Classica"],["aktuell","News"],["info","News"],["alternative","Rock"],["grunge","Rock"],["indie","Rock"],["deutschrap","Hip Hop"],["soul","Urban"],["funk","Urban"],["schlager","Pop"],["oldies","Pop"]];
+// Playlist M3U da cui leggere le radio (aggiungi o togli righe). Le fonti che non rispondono vengono ignorate.
+const SOURCES=[
+ {url:"https://raw.githubusercontent.com/Tundrak/IPTV-Italia/main/ipradioita.m3u",country:"Italia",p:""},
+ {url:"https://raw.githubusercontent.com/AlonDrilich/radio-playlists/main/countries/it.m3u",country:"Italia",p:"s1-"},
+ {gist:"701dec0830b99e7ac4f7988774d9e95e",country:"Italia",p:"s3-"},   // gist con radio italiane (via API GitHub)
+ {rb:true,country:"Italia",p:"s4-"}];                                     // Radio Browser: radio italiane con regione/coordinate
+const LANG={Italia:"Italiano",Germania:"Tedesco"};
+const $=(s,e=document)=>e.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+const hue=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))%360,7);
+const uniq=a=>[...new Set(a.filter(Boolean))].sort((x,y)=>x.localeCompare(y));
+const store={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+
+/* DATI DEMO (streamUrl vuoto: usati solo se la playlist non è raggiungibile) */
+const MOCK=[["Rai Radio 1","Lazio","Roma",["News","Talk Radio"]],["Rai Radio 2","Lazio","Roma",["Pop"]],["Rai Radio 3","Lazio","Roma",["Classica","Jazz"]],["Radio Deejay","Lombardia","Milano",["Pop","Dance"]],["Radio 105","Lombardia","Milano",["Pop","Rock"]],["RDS","Lazio","Roma",["Pop"]],["RTL 102.5","Lombardia","Cernusco sul Naviglio",["Pop","News"]],["Radio Capital","Lazio","Roma",["Rock"]],["Virgin Radio","Lombardia","Milano",["Rock"]],["Radio Kiss Kiss","Campania","Napoli",["Pop","Dance"]],["m2o","Lombardia","Milano",["Dance","Urban"]],["Radio Monte Carlo","Lombardia","Milano",["Jazz"]],["Radio Italia","Lombardia","Milano",["Musica Italiana"]]]
+  .map(([name,region,city,genre],i)=>({id:"demo"+i,name,logo:"",streamUrl:"",region,city,genre,isNational:true,language:"Italiano",country:"Italia",isFeatured:true}));
+
+/* ============ Parser M3U ============ */
+const PROV=`Lombardia|Milano 45.46 9.19,Bergamo 45.70 9.67,Brescia 45.54 10.22,Como 45.81 9.09,Cremona 45.13 10.02,Lecco 45.86 9.40,Lodi 45.31 9.50,Mantova 45.16 10.79,Monza 45.58 9.27,Pavia 45.19 9.16,Sondrio 46.17 9.87,Varese 45.82 8.83
+Lazio|Roma 41.90 12.50,Frosinone 41.64 13.34,Latina 41.47 12.90,Rieti 42.40 12.86,Viterbo 42.42 12.11
+Campania|Napoli 40.85 14.27,Avellino 40.91 14.79,Benevento 41.13 14.78,Caserta 41.07 14.33,Salerno 40.68 14.77
+Sicilia|Palermo 38.12 13.36,Agrigento 37.31 13.58,Caltanissetta 37.49 14.06,Catania 37.50 15.09,Enna 37.57 14.28,Messina 38.19 15.55,Ragusa 36.93 14.73,Siracusa 37.08 15.29,Trapani 38.02 12.51
+Veneto|Venezia 45.44 12.32,Belluno 46.14 12.22,Padova 45.41 11.88,Rovigo 45.07 11.79,Treviso 45.67 12.24,Verona 45.44 10.99,Vicenza 45.55 11.55
+Piemonte|Torino 45.07 7.69,Alessandria 44.91 8.61,Asti 44.90 8.21,Biella 45.57 8.05,Cuneo 44.38 7.54,Novara 45.45 8.62,Verbania 45.92 8.55,Vercelli 45.32 8.42
+Emilia-Romagna|Bologna 44.49 11.34,Ferrara 44.84 11.62,Forlì 44.22 12.04,Modena 44.65 10.93,Parma 44.80 10.33,Piacenza 45.05 9.69,Ravenna 44.42 12.20,Reggio Emilia 44.70 10.63,Rimini 44.06 12.57
+Toscana|Firenze 43.77 11.26,Arezzo 43.46 11.88,Grosseto 42.76 11.11,Livorno 43.55 10.31,Lucca 43.84 10.50,Massa 44.04 10.14,Pisa 43.72 10.40,Pistoia 43.93 10.92,Prato 43.88 11.10,Siena 43.32 11.33
+Puglia|Bari 41.12 16.87,Barletta 41.32 16.28,Brindisi 40.63 17.94,Foggia 41.46 15.55,Lecce 40.35 18.17,Taranto 40.47 17.24
+Calabria|Catanzaro 38.91 16.59,Cosenza 39.30 16.25,Crotone 39.08 17.13,Reggio Calabria 38.11 15.65,Vibo Valentia 38.68 16.10
+Liguria|Genova 44.41 8.93,Imperia 43.89 8.03,La Spezia 44.10 9.82,Savona 44.31 8.48
+Sardegna|Cagliari 39.22 9.12,Nuoro 40.32 9.33,Oristano 39.90 8.59,Sassari 40.73 8.56,Carbonia 39.17 8.52
+Marche|Ancona 43.62 13.52,Ascoli Piceno 42.85 13.58,Fermo 43.16 13.72,Macerata 43.30 13.45,Pesaro 43.91 12.91
+Abruzzo|L'Aquila 42.35 13.40,Chieti 42.35 14.17,Pescara 42.46 14.21,Teramo 42.66 13.70
+Umbria|Perugia 43.11 12.39,Terni 42.56 12.64
+Basilicata|Potenza 40.64 15.80,Matera 40.67 16.60
+Molise|Campobasso 41.56 14.66,Isernia 41.59 14.23
+Trentino-Alto Adige|Trento 46.07 11.12,Bolzano 46.50 11.35
+Friuli-Venezia Giulia|Trieste 45.65 13.78,Udine 46.06 13.24,Gorizia 45.94 13.62,Pordenone 45.96 12.66
+Valle d'Aosta|Aosta 45.74 7.32`.split("\n").flatMap(l=>{const [r,list]=l.split("|");return list.split(",").map(e=>{const q=e.match(/^(.*) (-?[\d.]+) (-?[\d.]+)$/);return{region:r,city:q[1],la:+q[2],lo:+q[3]}})});
+const NOCITY=/^(lombardy|tuscany|sicily|piedmont|apulia|sardinia|emilia romagna|romagna|trentino|alto adige|sudtirol|suedtirol|friuli|lucania|lucano|lucana|molisana|molisano|dolomiti|salento|gargano|versilia|elba|langhe|cilento|gallura|etna|vesuvio)$/;
+function nearest(la,lo){if(!(la>35&&la<48&&lo>6&&lo<19))return null;let b=null,bd=.64;for(const p of PROV){const dy=p.la-la,dx=(p.lo-lo)*Math.cos(la*Math.PI/180),d=dy*dy+dx*dx;if(d<bd){bd=d;b=p}}return b}
+function toRadio(m,url,i,country,pre){const it=country==="Italia",hay=norm(m.group+" "+m.name);let region,city;
+  if(it)for(const r of REGIONS){const x=hay.match(GEO_RE[r]);if(x){region=r;if(x[2]!==norm(r)&&!NOCITY.test(x[2]))city=x[2].replace(/(^|\s)\S/g,c=>c.toUpperCase());break}}
+  const gp=it&&m.lat&&m.lon?nearest(+m.lat,+m.lon):null;if(gp){city=gp.city;region=gp.region}
+  const g=[...new Set(GK.filter(([k])=>hay.includes(k)).map(([,v])=>v))];
+  return{id:pre+slug(m.name)+"-"+i,name:m.name,logo:m.logo,streamUrl:url,region:it?(region||"Italia"):country,city,genre:g.length?g:["Varie"],isNational:it?!region:true,country,language:m.lang||LANG[country]||"Altro"}}
+function parseM3U(t,country="Italia",pre=""){const out=[],seen=new Set();let m=null;
+  for(const raw of t.split(/\r?\n/)){const l=raw.trim();
+    if(l.startsWith("#EXTINF")){const a=k=>(l.match(new RegExp(k+'="([^"]*)"','i'))||[])[1]||"";m={logo:a("tvg-logo"),group:a("group-title"),lang:a("tvg-language"),name:l.slice(l.lastIndexOf(",")+1).trim()||a("tvg-name")}}
+    else if(l&&!l.startsWith("#")&&m){if(/^https?:\/\//i.test(l)&&m.name&&!seen.has(l)){seen.add(l);out.push(toRadio(m,l,out.length,country,pre))}m=null}}
+  return out}
+
+let radios=null,demo=false,favs=store.get("ril-fav",[]),dead=new Set(),cur=null,status="idle",err="";
+/* Lettura flessibile: M3U, JSON (lista di oggetti) oppure righe di testo/markdown con "Nome, URL" */
+function parseAny(t,country,pre){
+  if(t.includes("#EXTINF"))return parseM3U(t,country,pre);
+  let items=[];
+  try{let j=JSON.parse(t);if(!Array.isArray(j))j=Object.values(j).find(Array.isArray)||[];
+    items=j.map(o=>({name:o.name||o.title||o.station||o.nome,url:o.url_resolved||o.streamUrl||o.stream_url||o.stream||o.url||o.src||o.link,logo:o.logo||o.favicon||o.image||o.icon||"",group:[o.region,o.regione,o.city,o.citta,o.state,o.genre,o.tags,o.group].flat().filter(Boolean).join(" "),lang:o.language||o.lingua||""}))}
+  catch{items=t.split(/\r?\n/).map(l=>{const md=l.match(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/);if(md)return{name:md[1],url:md[2],logo:"",group:"",lang:""};
+      const m=l.match(/https?:\/\/[^\s,;|"'<>]+/);if(!m)return null;const trim=x=>x.replace(/^[\s,;|\-–:=]+|[\s,;|\-–:=]+$/g,"");
+      return{name:trim(l.slice(0,m.index))||trim(l.slice(m.index+m[0].length))||new URL(m[0]).hostname,url:m[0],logo:"",group:"",lang:""}}).filter(Boolean)}
+  return fromItems(items,country,pre)}
+function fromItems(items,country,pre){const seen=new Set(),out=[];
+  for(const o of items)if(o&&o.name&&/^https?:\/\//i.test(o.url||"")&&!seen.has(o.url)){seen.add(o.url);
+    const r=toRadio({name:String(o.name).trim(),logo:o.logo,group:o.group,lang:o.lang,lat:o.lat,lon:o.lon},o.url,out.length,country,pre);r.clicks=o.clicks||0;if(o.id)r.id=pre+o.id;out.push(r)}
+  return out}
+const RB=["https://de1.api.radio-browser.info","https://de2.api.radio-browser.info","https://nl1.api.radio-browser.info"];
+async function rbItems(){const key="ril-rb",c=store.get(key,null);   // cache 12 ore
+  if(c&&Date.now()-c.t<12*3600e3)return c.list;
+  for(const b of RB){try{const r=await fetch(b+"/json/stations/search?countrycode=IT&hidebroken=true&order=clickcount&reverse=true&limit=4000");if(!r.ok)continue;
+    const list=(await r.json()).map(o=>({id:o.stationuuid,name:(o.name||"").trim(),url:o.url_resolved||o.url,logo:o.favicon||"",group:(o.state||"")+" "+(o.tags||""),lang:/ital/i.test(o.language||"")?"Italiano":(o.language||""),lat:o.geo_lat,lon:o.geo_long,clicks:o.clickcount||0}));
+    if(list.length){store.set(key,{t:Date.now(),list});return list}}catch{}}
+  if(c)return c.list;throw 0}
+async function gistTexts(id){const key="ril-gist-"+id,c=store.get(key,null);   // cache 6 ore (l'API GitHub ha un limite di richieste)
+  if(c&&Date.now()-c.t<6*3600e3)return c.texts;
+  try{const g=await(await fetch("https://api.github.com/gists/"+id)).json();
+    const texts=await Promise.all(Object.values(g.files||{}).map(async f=>f.truncated?await(await fetch(f.raw_url)).text():f.content));
+    if(!texts.length)throw 0;store.set(key,{t:Date.now(),texts});return texts}
+  catch{if(c)return c.texts;throw 0}}
+async function load(){
+  const res=await Promise.allSettled(SOURCES.map(async(src,k)=>{const pre=src.p;
+    if(src.rb)return fromItems(await rbItems(),src.country,pre);
+    if(src.gist)return(await gistTexts(src.gist)).flatMap((t,j)=>parseAny(t,src.country,pre+j+"-"));
+    const r=await fetch(src.url);if(!r.ok)throw 0;return parseM3U(await r.text(),src.country,pre)}));
+  const seen=new Set(),all=[];
+  res.forEach(x=>{if(x.status==="fulfilled")x.value.forEach(r=>{if(!seen.has(r.streamUrl)){seen.add(r.streamUrl);all.push(r)}})});
+  if(!all.length){radios=MOCK;demo=true}else{const top=new Set(all.filter(r=>r.clicks>0).sort((a,b)=>b.clicks-a.clicks).slice(0,40).map(r=>r.id));let n=0;
+    radios=all.map(r=>({...r,isFeatured:top.size?top.has(r.id):r.isNational&&n++<40}))}
+  route()}
+
+/* ============ Player (una sola istanza Audio: continua durante la navigazione) ============ */
+const A=new Audio();A.preload="none";let hls=null,timer,tok=0,att=0;
+const loadHls=()=>window.Hls?Promise.resolve():new Promise((ok,ko)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js";s.onload=ok;s.onerror=ko;document.head.appendChild(s)});
+function setS(s,e=""){status=s;err=e;sync()}
+function fail(r,msg){clearTimeout(timer);dead.add(r.id);setS("error",msg)}
+function retry(r,a,t){if(t!==tok)return;if(a>=2){A.pause();return fail(r,"Questa radio non risponde: probabilmente è offline.")}setS("loading");setTimeout(()=>{if(t===tok)start(r,a+1)},800)}
+async function start(r,a=0){const t=++tok;att=a;cur=r;clearTimeout(timer);if(hls){hls.destroy();hls=null}A.pause();let u=r.streamUrl;
+  if(!u)return fail(r,"Stream non configurato: radio di esempio (demo).");
+  if(location.protocol==="https:"&&u.startsWith("http:"))return fail(r,"Stream http bloccato dal browser su pagine https.");
+  setS("loading");timer=setTimeout(()=>retry(r,a,t),15000);
+  try{if(/\.(pls|m3u)(\?|$)/i.test(u)){const m=(await(await fetch(u)).text()).match(/^(?:File\d+=)?(https?:\/\/\S+)$/m);if(!m)throw 0;u=m[1]}
+    if(t!==tok)return;
+    if(/\.m3u8(\?|$)/i.test(u)&&!A.canPlayType("application/vnd.apple.mpegurl")){await loadHls();if(t!==tok)return;if(!Hls.isSupported())throw 0;hls=new Hls();hls.loadSource(u);hls.attachMedia(A);hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal)retry(r,a,t)})}else A.src=u;
+    await A.play()}catch{if(t===tok)retry(r,a,t)}}
+function toggle(){if(!cur)return;if(status==="playing"||status==="loading"){tok++;clearTimeout(timer);A.pause();setS("paused")}else start(cur)}
+A.onplaying=()=>{clearTimeout(timer);dead.delete(cur.id);setS("playing")};
+A.onpause=()=>{if(status!=="loading"&&status!=="error")setS("paused")};
+const stall=()=>{if(!cur||A.paused)return;setS("loading");clearTimeout(timer);const t=tok,r=cur;timer=setTimeout(()=>retry(r,0,t),10000)};
+A.onwaiting=stall;A.onstalled=stall;A.onerror=()=>{if(cur)retry(cur,att,tok)};
+A.volume=store.get("ril-vol",.8);
+function toggleFav(id){favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];store.set("ril-fav",favs);if(location.hash.startsWith("#/preferiti"))route();else sync()}
+
+/* ============ UI: card e sincronizzazione ============ */
+const ico=on=>on&&status==="loading"?'<span class="sp"></span>':on&&status==="playing"?"❚❚":"▶";
+const logo=r=>`<div class="logo" style="background:linear-gradient(135deg,hsl(${hue(r.name)} 80% 58%),hsl(${(hue(r.name)+60)%360} 80% 48%))">${esc(r.name[0])}${r.logo?`<img src="${esc(r.logo)}" alt="Logo ${esc(r.name)}" loading="lazy" onerror="this.remove()">`:""}</div>`;
+const card=r=>`<article class="card glass" data-id="${esc(r.id)}"><div class="row">${logo(r)}<div class="grow"><h3>${esc(r.name)}</h3><p class="mut">${esc(r.city||r.region)}${r.isNational&&r.country==="Italia"?" · Nazionale":""}</p></div>
+<span class="live"><i></i>LIVE</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="offl">Offline</span></div>
+<div class="row between"><div>${r.genre.slice(0,2).map(g=>`<span class="chip">${esc(g)}</span>`).join("")}</div><div class="row" style="gap:2px"><button class="fav" data-fav="${esc(r.id)}" aria-label="Preferiti ${esc(r.name)}">♥</button><button class="play" data-play="${esc(r.id)}" aria-label="Ascolta ${esc(r.name)}">▶</button></div></div></article>`;
+function sync(){
+  document.querySelectorAll(".card").forEach(c=>{const id=c.dataset.id,on=cur&&cur.id===id;
+    c.classList.toggle("active",!!on);c.classList.toggle("off",dead.has(id));c.classList.toggle("playing",!!on&&status==="playing");
+    $(".play",c).innerHTML=ico(on);$(".play",c).setAttribute("aria-label",(on&&status==="playing"?"Pausa ":"Ascolta ")+(radios.find(r=>r.id===id)||{}).name);$(".fav",c).classList.toggle("on",favs.includes(id))});
+  const p=$("#player");if(!cur){p.hidden=true;return}p.hidden=false;
+  $("#plogo").outerHTML=logo(cur).replace('class="logo"','class="logo" id="plogo"');
+  $("#pn").textContent=cur.name;const s=$("#ps");s.className=status==="error"?"e":"";
+  s.textContent=status==="error"?err:status==="loading"?"Connessione...":(cur.city||cur.region)+" · LIVE";
+  $("#peq").classList.toggle("on",status==="playing");$("#pplay").innerHTML=ico(true);$("#pplay").setAttribute("aria-label",status==="playing"?"Pausa":"Play");
+  $("#pfav").classList.toggle("on",favs.includes(cur.id));$("#mute").textContent=A.muted||A.volume===0?"🔇":"🔊"}
+
+/* ============ Lista con filtri e ricerca live ============ */
+function browser(host,{fixed={},q="",filters=true}={}){
+  const F={q,country:"",region:"",city:"",genre:"",scope:"",lang:"",sort:"az",n:60,...fixed};
+  const opt=(a,l)=>`<option value="">${l}</option>`+a.map(x=>`<option>${esc(x)}</option>`).join("");
+  const sg=uniq([...REGIONS,...GENRES,...radios.map(r=>r.city),...radios.slice(0,150).map(r=>r.name)]);
+  host.innerHTML=(filters?`<div class="bar-f"><div class="sw"><input id="fq" list="sg" placeholder="Cerca una radio, una città o un genere..." aria-label="Cerca" value="${esc(q)}"><button id="fclr" aria-label="Cancella ricerca" ${q?"":"hidden"}>✕</button><datalist id="sg">${sg.map(x=>`<option value="${esc(x)}">`).join("")}</datalist></div>
+    ${fixed.region?"":`<select id="fregion" aria-label="Regione">${opt(REGIONS,"Tutte le regioni")}</select>`}${fixed.country||new Set(radios.map(r=>r.country)).size<2?"":`<select id="fcountry" aria-label="Paese">${opt(uniq(radios.map(r=>r.country)),"Tutti i paesi")}</select>`}<select id="fcity" aria-label="Città"></select><select id="fgenre" aria-label="Genere">${opt(uniq([...GENRES,...radios.flatMap(r=>r.genre)]),"Tutti i generi")}</select>
+    <select id="fscope" aria-label="Tipo"><option value="">Nazionali e locali</option><option value="n">Nazionali</option><option value="l">Locali</option></select><select id="flang" aria-label="Lingua">${opt(uniq(radios.map(r=>r.language)),"Tutte le lingue")}</select>
+    <select id="fsort" aria-label="Ordinamento"><option value="az">A-Z</option><option value="pop">Più ascoltate</option><option value="feat">In evidenza</option><option value="new">Aggiunte di recente</option></select></div>`:"")+`<p id="cnt" class="mut" aria-live="polite"></p><div id="lst" class="grid"></div><button id="more" class="more" hidden>Mostra altre</button>`;
+  const cities=()=>{const el=$("#fcity");if(el)el.innerHTML=opt(uniq(radios.filter(r=>!F.region||r.region===F.region).map(r=>r.city)),"Tutte le città")};
+  const draw=()=>{const s=F.q.trim().toLowerCase();
+    let l=radios.filter(r=>(!F.country||r.country===F.country)&&(!F.region||r.region===F.region||(F.nat&&r.isFeatured))&&(!F.city||r.city===F.city)&&(!F.genre||r.genre.includes(F.genre))&&(!F.scope||(F.scope==="n")===r.isNational)&&(!F.lang||r.language===F.lang)&&(!s||[r.name,r.region,r.city||"",...r.genre].some(x=>x.toLowerCase().includes(s))));
+    l=F.sort==="az"?[...l].sort((a,b)=>a.name.localeCompare(b.name)):F.sort==="pop"?[...l].sort((a,b)=>(b.clicks||0)-(a.clicks||0)):F.sort==="feat"?[...l].sort((a,b)=>+!!b.isFeatured-+!!a.isFeatured):[...l].reverse();
+    $("#cnt").textContent=l.length+" radio";$("#lst").innerHTML=l.slice(0,F.n).map(card).join("")||"";
+    if(!l.length)$("#lst").innerHTML='<div class="empty" style="grid-column:1/-1">Nessun risultato.</div>';
+    $("#more").hidden=F.n>=l.length;const c=$("#fclr");if(c)c.hidden=!F.q;sync()};
+  const key={fcountry:"country",fq:"q",fregion:"region",fcity:"city",fgenre:"genre",fscope:"scope",flang:"lang",fsort:"sort"};
+  host.oninput=host.onchange=e=>{const k=key[e.target.id];if(!k)return;F[k]=e.target.value;F.n=60;if(k==="region"){F.city="";cities()}draw()};
+  host.onclick=e=>{if(e.target.id==="more"){F.n+=60;draw()}if(e.target.id==="fclr"){F.q="";$("#fq").value="";draw()}};
+  cities();if(fixed.genre&&$("#fgenre"))$("#fgenre").value=fixed.genre;draw()}
+
+/* ============ Pagine e routing (hash: #/radio, #/regioni/lazio, ...) ============ */
+const app=$("#app");
+const page={
+  home(){app.innerHTML=`<section class="hero"><span class="pill glass"><span class="live"><i></i></span>In diretta, 24 ore su 24</span><h1 class="grad">Tutta la radio italiana.<br>In un unico posto.</h1><p class="mut">Scopri e ascolta centinaia di radio italiane in streaming, ovunque tu sia.</p>
+    <form class="sf" role="search" id="hf"><input id="hq" placeholder="Cerca una radio, una città o un genere..." aria-label="Cerca"><button class="btn">Cerca</button></form><div class="wf" aria-hidden="true">${Array.from({length:36},(_,i)=>`<i style="animation-delay:${(i%9)*.11}s"></i>`).join("")}</div></section>
+    <h2>🔥 Radio più ascoltate</h2><div class="grid">${radios.filter(r=>r.isFeatured).slice(0,12).map(card).join("")}</div>`;
+    $("#hf").onsubmit=e=>{e.preventDefault();location.hash="#/cerca?q="+encodeURIComponent($("#hq").value)};sync()},
+  radio(){app.innerHTML='<h1>Tutte le Radio</h1><div id="b"></div>';browser($("#b"))},
+  cerca(q){app.innerHTML='<h1>Cerca</h1><div id="b"></div>';browser($("#b"),{q})},
+  regioni(){const NAT=radios.filter(x=>x.isFeatured).length;app.innerHTML=`<h1>Regioni</h1><div class="grid rg">${REGIONS.map(r=>`<a class="rc" style="--h:${hue(r)}" href="#/regioni/${slug(r)}"><em>${r[0]}</em><b>${r}</b><span>${radios.filter(x=>x.region===r).length} locali + ${NAT} nazionali</span></a>`).join("")}</div>`},
+  regione(s){const r=REGIONS.find(x=>slug(x)===s);if(!r){app.innerHTML='<div class="empty">Regione non trovata.</div>';return}app.innerHTML=`<h1>Radio in ${esc(r)}</h1><p class="mut" style="margin:-12px 0 20px">Radio locali della regione + radio nazionali, ascoltabili da ogni regione.</p><div id="b"></div>`;browser($("#b"),{fixed:{region:r,nat:true,country:"Italia"}})},
+  generi(s){const ALL=["Tutte",...GENRES,"Varie"];const g=ALL.find(x=>slug(x)===s)||"Tutte";
+    app.innerHTML=`<h1>Generi</h1><div class="gg">${ALL.map(x=>`<a class="gc ${x===g?"sel":""}" style="--h:${hue(x)}" href="#/generi/${slug(x)}"><big>${EMO[x]}</big><b>${x}</b><small>${radios.filter(r=>x==="Tutte"||r.genre.includes(x)).length} radio</small></a>`).join("")}</div><div id="b"></div>`;
+    browser($("#b"),{fixed:{genre:g==="Tutte"?"":g},filters:false})},
+  preferiti(){const l=radios.filter(r=>favs.includes(r.id));app.innerHTML="<h1>Le mie radio preferite</h1>"+(l.length?`<div class="grid">${l.map(card).join("")}</div>`:'<div class="empty">💜<br>Nessun preferito ancora.<br>Tocca il cuore su una radio per salvarla.</div>');sync()}};
+function route(){const [path,qs]=(location.hash.slice(1)||"/").split("?"),seg=path.split("/").filter(Boolean);
+  document.querySelectorAll("nav ul a").forEach(a=>a.classList.toggle("act",a.getAttribute("href")==="#/"+(seg[0]||"")));
+  $("#nav").classList.remove("open");window.scrollTo(0,0);
+  if(!radios){app.innerHTML='<div class="grid">'+'<div class="sk"></div>'.repeat(6)+"</div>";return}
+  const p=seg[0]||"home";(page[p]||page.home)(p==="cerca"?new URLSearchParams(qs||"").get("q")||"":seg[1]);
+  if(demo)app.insertAdjacentHTML("afterbegin",'<p class="empty" style="padding:0 0 18px">⚠️ Playlist non raggiungibile (serve internet): mostro un elenco di esempio senza stream.</p>')}
+addEventListener("hashchange",route);
+
+/* ============ Eventi globali ============ */
+document.addEventListener("click",e=>{const p=e.target.closest("[data-play]"),f=e.target.closest("[data-fav]");
+  if(p){const r=radios.find(x=>x.id===p.dataset.play);cur&&cur.id===r.id?toggle():start(r)}
+  if(f)toggleFav(f.dataset.fav)});
+$("#pplay").onclick=toggle;$("#pfav").onclick=()=>cur&&toggleFav(cur.id);
+$("#mute").onclick=()=>{A.muted=!A.muted;sync()};
+$("#vol").value=A.volume;$("#vol").oninput=e=>{A.volume=+e.target.value;A.muted=false;store.set("ril-vol",A.volume);sync()};
+$("#pname").onclick=()=>$("#player").classList.toggle("open");
+$("#share").onclick=()=>{if(!cur)return;navigator.share?navigator.share({title:cur.name,url:location.href}).catch(()=>{}):navigator.clipboard&&navigator.clipboard.writeText(cur.name+" - "+location.href)};
+$("#menu").onclick=()=>{const n=$("#nav").classList.toggle("open");$("#menu").setAttribute("aria-expanded",n)};
+const setTheme=l=>{document.documentElement.classList.toggle("light",l);$("#theme").textContent=l?"🌙":"☀️";store.set("ril-theme",l?"light":"dark")};
+$("#theme").onclick=()=>setTheme(!document.documentElement.classList.contains("light"));
+setTheme(store.get("ril-theme","dark")==="light");
+route();load();
+</script>
+</body>
+</html>
