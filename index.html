@@ -34,7 +34,7 @@ h1{font-size:2rem;margin:0 0 24px}h2{font-size:1.5rem;margin:28px 0 14px}
 .hero p{max-width:560px;margin:0 auto 30px;font-size:1.1rem}
 .sf{display:flex;gap:8px;max-width:640px;margin:auto}.sf input{flex:1;border-radius:99px;padding:16px 22px;background:rgb(var(--card));border:1px solid rgb(128 128 128/.25);outline:0}.sf input:focus{border-color:var(--acc)}
 .btn{background:linear-gradient(90deg,var(--acc),var(--pink));color:#fff;border-radius:99px;padding:0 26px;font-weight:700}
-.wf{display:flex;justify-content:center;align-items:flex-end;gap:6px;height:76px;margin-top:44px}.wf i{width:5px;height:72px;border-radius:9px;background:linear-gradient(#7C3AED,#EC4899);transform-origin:bottom;animation:wave 1.1s ease-in-out infinite}
+.wf{display:flex;justify-content:center;align-items:flex-end;gap:6px;height:76px;margin-top:44px}.wf i{width:5px;height:72px;border-radius:99px;background:linear-gradient(#7C3AED,#EC4899);transform-origin:bottom;animation:wave 1.1s ease-in-out infinite}
 .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
 .card{position:relative;overflow:hidden;border-radius:24px;padding:16px;box-shadow:0 10px 30px -12px rgba(0,0,0,.5);transition:transform .25s,box-shadow .25s;animation:up .4s ease both}
 .card:hover{transform:translateY(-5px)}.card.active{box-shadow:0 0 0 1.5px rgba(236,72,153,.75),0 14px 44px -12px rgba(124,58,237,.85)}.card.off{opacity:.6}
@@ -66,7 +66,7 @@ footer{text-align:center;color:var(--mut);font-size:.85rem;padding:30px 16px;bor
 #player[hidden]{display:none}.prow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.pname{flex:1;min-width:0;text-align:left}.pname b,.pname small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pname small{color:var(--mut);font-size:.8rem}.pname small.e{color:#f87171}
 .extra{display:flex;align-items:center;gap:8px}#vol{width:110px;accent-color:var(--acc)}#player .eq.on{display:flex}#player .logo{width:42px;height:42px;font-size:1.1rem;border-radius:12px}
 #player button.i{font-size:1.25rem;padding:6px}#player button.i.on{color:var(--pink)}
-@media(max-width:640px){.extra{display:none;width:100%;order:9}#player.open .extra{display:flex}#share{display:none}}
+@media(max-width:640px){.extra{display:none;width:100%.order:9}#player.open .extra{display:flex}#share{display:none}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
@@ -96,12 +96,12 @@ const GEO={Lombardia:"lombardy,milano,bergamo,brescia,como,cremona,lecco,lodi,ma
 const norm=t=>t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const GEO_RE=Object.fromEntries(Object.entries(GEO).map(([r,c])=>[r,new RegExp("(^|[^a-z])("+[norm(r),...c.split(",")].join("|")+")(?![a-z])")]));
 const GK=[["hip hop","Hip Hop"],["hiphop","Hip Hop"],["rap","Hip Hop"],["rock","Rock"],["metal","Rock"],["punk","Rock"],["dance","Dance"],["house","Dance"],["techno","Dance"],["club","Dance"],["electro","Dance"],["classic","Classica"],["opera","Classica"],["news","News"],["notizie","News"],["giornale radio","News"],["informazione","News"],["sport","Sport"],["calcio","Sport"],["jazz","Jazz"],["blues","Jazz"],["swing","Jazz"],["talk","Talk Radio"],["parlato","Talk Radio"],["urban","Urban"],["trap","Urban"],["r&b","Urban"],["pop","Pop"],["hits","Pop"],["italian","Musica Italiana"],["cantautori","Musica Italiana"],["internazional","Internazionale"],["english","Internazionale"],["world","Internazionale"],["latin","Internazionale"],["anni 60","Pop"],["anni 70","Pop"],["anni 80","Pop"],["anni 90","Pop"],["80s","Pop"],["90s","Pop"],["trance","Dance"],["edm","Dance"],["dnb","Dance"],["disco","Dance"],["klassik","Classica"],["mozart","Classica"],["bach","Classica"],["beethoven","Classica"],["barock","Classica"],["piano","Classica"],["aktuell","News"],["info","News"],["alternative","Rock"],["grunge","Rock"],["indie","Rock"],["deutschrap","Hip Hop"],["soul","Urban"],["funk","Urban"],["schlager","Pop"],["oldies","Pop"]];
-// Playlist M3U da cui leggere le radio (aggiungi o togli righe). Le fonti che non rispondono vengono ignorate.
+
 const SOURCES=[
  {url:"https://raw.githubusercontent.com/Tundrak/IPTV-Italia/main/ipradioita.m3u",country:"Italia",p:""},
  {url:"https://raw.githubusercontent.com/AlonDrilich/radio-playlists/main/countries/it.m3u",country:"Italia",p:"s1-"},
- {gist:"701dec0830b99e7ac4f7988774d9e95e",country:"Italia",p:"s3-"},   // gist con radio italiane (via API GitHub)
- {rb:true,country:"Italia",p:"s4-"}];                                     // Radio Browser: radio italiane con regione/coordinate
+ {gist:"701dec0830b99e7ac4f7988774d9e95e",country:"Italia",p:"s3-"},
+ {rb:true,country:"Italia",p:"s4-"}];
 const LANG={Italia:"Italiano",Germania:"Tedesco"};
 const $=(s,e=document)=>e.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -110,9 +110,39 @@ const hue=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))%360,7);
 const uniq=a=>[...new Set(a.filter(Boolean))].sort((x,y)=>x.localeCompare(y));
 const store={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
 
-/* DATI DEMO (streamUrl vuoto: usati solo se la playlist non è raggiungibile) */
-const MOCK=[["Rai Radio 1","Lazio","Roma",["News","Talk Radio"]],["Rai Radio 2","Lazio","Roma",["Pop"]],["Rai Radio 3","Lazio","Roma",["Classica","Jazz"]],["Radio Deejay","Lombardia","Milano",["Pop","Dance"]],["Radio 105","Lombardia","Milano",["Pop","Rock"]],["RDS","Lazio","Roma",["Pop"]],["RTL 102.5","Lombardia","Cernusco sul Naviglio",["Pop","News"]],["Radio Capital","Lazio","Roma",["Rock"]],["Virgin Radio","Lombardia","Milano",["Rock"]],["Radio Kiss Kiss","Campania","Napoli",["Pop","Dance"]],["m2o","Lombardia","Milano",["Dance","Urban"]],["Radio Monte Carlo","Lombardia","Milano",["Jazz"]],["Radio Italia","Lombardia","Milano",["Musica Italiana"]]]
-  .map(([name,region,city,genre],i)=>({id:"demo"+i,name,logo:"",streamUrl:"",region,city,genre,isNational:true,language:"Italiano",country:"Italia",isFeatured:true}));
+const CORS_PROXIES=[
+  u => u,
+  u => "https://corsproxy.io/?" + encodeURIComponent(u),
+  u => "https://api.allorigins.win/raw?url=" + encodeURIComponent(u)
+];
+
+const fetchWithProxy = async (url) => {
+  for (const proxyFn of CORS_PROXIES) {
+    try {
+      const res = await fetch(proxyFn(url));
+      if (res.ok) return res;
+    } catch {}
+  }
+  throw new Error("Impossibile caricare URL");
+};
+
+/* DATI DEMO DI FALLBACK (Radio 24 aggiornata con il link richiesto) */
+const MOCK=[
+  ["Rai Radio 1","Lazio","Roma",["News","Talk Radio"],"https://icstream.rai.it/1.mp3"],
+  ["Rai Radio 2","Lazio","Roma",["Pop"],"https://icstream.rai.it/2.mp3"],
+  ["Rai Radio 3","Lazio","Roma",["Classica","Jazz"],"https://icstream.rai.it/3.mp3"],
+  ["Radio 24 Il Sole 24 Ore","Lombardia","Milano",["News","Talk Radio"],"http://shoutcast.radio24.it:8000/listen.pls"],
+  ["Radio Deejay","Lombardia","Milano",["Pop","Dance"],"https://stream-152.radiocdn.com/39328_128k.mp3"],
+  ["Radio 105","Lombardia","Milano",["Pop","Rock"],"https://stream1.105.net/live/105.mp3"],
+  ["RDS","Lazio","Roma",["Pop"],"https://stream.rds.radio/rds.mp3"],
+  ["RTL 102.5","Lombardia","Cernusco sul Naviglio",["Pop","News"],"https://streamall.rtl.it/live/rtl1025.mp3"],
+  ["Radio Capital","Lazio","Roma",["Rock"],"https://stream-156.radiocdn.com/capital.mp3"],
+  ["Virgin Radio","Lombardia","Milano",["Rock"],"https://stream1.virginradio.it/live/virgin.mp3"],
+  ["Radio Kiss Kiss","Campania","Napoli",["Pop","Dance"],"https://stream.kisskiss.it/kisskiss.mp3"],
+  ["m2o","Lombardia","Milano",["Dance","Urban"],"https://stream-155.radiocdn.com/m2o.mp3"],
+  ["Radio Monte Carlo","Lombardia","Milano",["Jazz"],"https://stream1.radiomontecarlo.net/live/rmc.mp3"],
+  ["Radio Italia","Lombardia","Milano",["Musica Italiana"],"https://streamall.radioitalia.it/live/radioitalia.mp3"]
+].map(([name,region,city,genre,streamUrl],i)=>({id:"demo"+i,name,logo:"",streamUrl,region,city,genre,isNational:true,language:"Italiano",country:"Italia",isFeatured:true}));
 
 /* ============ Parser M3U ============ */
 const PROV=`Lombardia|Milano 45.46 9.19,Bergamo 45.70 9.67,Brescia 45.54 10.22,Como 45.81 9.09,Cremona 45.13 10.02,Lecco 45.86 9.40,Lodi 45.31 9.50,Mantova 45.16 10.79,Monza 45.58 9.27,Pavia 45.19 9.16,Sondrio 46.17 9.87,Varese 45.82 8.83
@@ -149,7 +179,6 @@ function parseM3U(t,country="Italia",pre=""){const out=[],seen=new Set();let m=n
   return out}
 
 let radios=null,demo=false,favs=store.get("ril-fav",[]),dead=new Set(),cur=null,status="idle",err="";
-/* Lettura flessibile: M3U, JSON (lista di oggetti) oppure righe di testo/markdown con "Nome, URL" */
 function parseAny(t,country,pre){
   if(t.includes("#EXTINF"))return parseM3U(t,country,pre);
   let items=[];
@@ -164,48 +193,92 @@ function fromItems(items,country,pre){const seen=new Set(),out=[];
     const r=toRadio({name:String(o.name).trim(),logo:o.logo,group:o.group,lang:o.lang,lat:o.lat,lon:o.lon},o.url,out.length,country,pre);r.clicks=o.clicks||0;if(o.id)r.id=pre+o.id;out.push(r)}
   return out}
 const RB=["https://de1.api.radio-browser.info","https://de2.api.radio-browser.info","https://nl1.api.radio-browser.info"];
-async function rbItems(){const key="ril-rb",c=store.get(key,null);   // cache 12 ore
+async function rbItems(){const key="ril-rb",c=store.get(key,null);
   if(c&&Date.now()-c.t<12*3600e3)return c.list;
-  for(const b of RB){try{const r=await fetch(b+"/json/stations/search?countrycode=IT&hidebroken=true&order=clickcount&reverse=true&limit=4000");if(!r.ok)continue;
+  for(const b of RB){try{const r=await fetchWithProxy(b+"/json/stations/search?countrycode=IT&hidebroken=true&order=clickcount&reverse=true&limit=4000");
     const list=(await r.json()).map(o=>({id:o.stationuuid,name:(o.name||"").trim(),url:o.url_resolved||o.url,logo:o.favicon||"",group:(o.state||"")+" "+(o.tags||""),lang:/ital/i.test(o.language||"")?"Italiano":(o.language||""),lat:o.geo_lat,lon:o.geo_long,clicks:o.clickcount||0}));
     if(list.length){store.set(key,{t:Date.now(),list});return list}}catch{}}
   if(c)return c.list;throw 0}
-async function gistTexts(id){const key="ril-gist-"+id,c=store.get(key,null);   // cache 6 ore (l'API GitHub ha un limite di richieste)
+async function gistTexts(id){const key="ril-gist-"+id,c=store.get(key,null);
   if(c&&Date.now()-c.t<6*3600e3)return c.texts;
-  try{const g=await(await fetch("https://api.github.com/gists/"+id)).json();
-    const texts=await Promise.all(Object.values(g.files||{}).map(async f=>f.truncated?await(await fetch(f.raw_url)).text():f.content));
+  try{const g=await(await fetchWithProxy("https://api.github.com/gists/"+id)).json();
+    const texts=await Promise.all(Object.values(g.files||{}).map(async f=>f.truncated?await(await fetchWithProxy(f.raw_url)).text():f.content));
     if(!texts.length)throw 0;store.set(key,{t:Date.now(),texts});return texts}
   catch{if(c)return c.texts;throw 0}}
 async function load(){
   const res=await Promise.allSettled(SOURCES.map(async(src,k)=>{const pre=src.p;
     if(src.rb)return fromItems(await rbItems(),src.country,pre);
     if(src.gist)return(await gistTexts(src.gist)).flatMap((t,j)=>parseAny(t,src.country,pre+j+"-"));
-    const r=await fetch(src.url);if(!r.ok)throw 0;return parseM3U(await r.text(),src.country,pre)}));
+    const r=await fetchWithProxy(src.url);return parseM3U(await r.text(),src.country,pre)}));
   const seen=new Set(),all=[];
   res.forEach(x=>{if(x.status==="fulfilled")x.value.forEach(r=>{if(!seen.has(r.streamUrl)){seen.add(r.streamUrl);all.push(r)}})});
   if(!all.length){radios=MOCK;demo=true}else{const top=new Set(all.filter(r=>r.clicks>0).sort((a,b)=>b.clicks-a.clicks).slice(0,40).map(r=>r.id));let n=0;
     radios=all.map(r=>({...r,isFeatured:top.size?top.has(r.id):r.isNational&&n++<40}))}
   route()}
 
-/* ============ Player (una sola istanza Audio: continua durante la navigazione) ============ */
+/* ============ Player con gestione pls/m3u e CORS ============ */
 const A=new Audio();A.preload="none";let hls=null,timer,tok=0,att=0;
 const loadHls=()=>window.Hls?Promise.resolve():new Promise((ok,ko)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js";s.onload=ok;s.onerror=ko;document.head.appendChild(s)});
 function setS(s,e=""){status=s;err=e;sync()}
 function fail(r,msg){clearTimeout(timer);dead.add(r.id);setS("error",msg)}
-function retry(r,a,t){if(t!==tok)return;if(a>=2){A.pause();return fail(r,"Questa radio non risponde: probabilmente è offline.")}setS("loading");setTimeout(()=>{if(t===tok)start(r,a+1)},800)}
-async function start(r,a=0){const t=++tok;att=a;cur=r;clearTimeout(timer);if(hls){hls.destroy();hls=null}A.pause();let u=r.streamUrl;
-  if(!u)return fail(r,"Stream non configurato: radio di esempio (demo).");
-  if(location.protocol==="https:"&&u.startsWith("http:"))return fail(r,"Stream http bloccato dal browser su pagine https.");
-  setS("loading");timer=setTimeout(()=>retry(r,a,t),15000);
-  try{if(/\.(pls|m3u)(\?|$)/i.test(u)){const m=(await(await fetch(u)).text()).match(/^(?:File\d+=)?(https?:\/\/\S+)$/m);if(!m)throw 0;u=m[1]}
+function retry(r,a,t){
+  if(t!==tok)return;
+  if(a>=CORS_PROXIES.length){
+    A.pause();
+    return fail(r,"Questa radio non risponde o il formato non è supportato dal browser.")
+  }
+  setS("loading");
+  setTimeout(()=>{if(t===tok)start(r,a+1)},600)
+}
+
+async function start(r,a=0){
+  const t=++tok;att=a;cur=r;clearTimeout(timer);
+  if(hls){hls.destroy();hls=null}
+  A.pause();
+  let u=r.streamUrl;
+  if(!u)return fail(r,"Stream non configurato.");
+
+  if(location.protocol==="https:"&&u.startsWith("http:")){
+    u=u.replace(/^http:/i,"https:");
+  }
+
+  const targetUrl = CORS_PROXIES[a] ? CORS_PROXIES[a](u) : u;
+
+  setS("loading");
+  timer=setTimeout(()=>retry(r,a,t),12000);
+  try{
+    if(/\.(pls|m3u)(\?|$)/i.test(u)){
+      const response = await fetchWithProxy(u);
+      const textData = await response.text();
+      // Estrae file audio da file .pls o .m3u
+      const m = textData.match(/(?:File\d+|http[s]?):\/\/\S+/i) || textData.match(/^(?:File\d+=)?(https?:\/\/\S+)$/m);
+      if(!m)throw 0;
+      u = m[1].replace(/^File\d+=/i, "");
+      if(location.protocol==="https:"&&u.startsWith("http:")) u=u.replace(/^http:/i,"https:");
+    }
     if(t!==tok)return;
-    if(/\.m3u8(\?|$)/i.test(u)&&!A.canPlayType("application/vnd.apple.mpegurl")){await loadHls();if(t!==tok)return;if(!Hls.isSupported())throw 0;hls=new Hls();hls.loadSource(u);hls.attachMedia(A);hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal)retry(r,a,t)})}else A.src=u;
-    await A.play()}catch{if(t===tok)retry(r,a,t)}}
+    if(/\.m3u8(\?|$)/i.test(u)&&!A.canPlayType("application/vnd.apple.mpegurl")){
+      await loadHls();
+      if(t!==tok)return;
+      if(!Hls.isSupported())throw 0;
+      hls=new Hls();
+      hls.loadSource(targetUrl);
+      hls.attachMedia(A);
+      hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal)retry(r,a,t)})
+    }else{
+      A.src = (a > 0) ? CORS_PROXIES[a](u) : u;
+    }
+    await A.play()
+  }catch{
+    if(t===tok)retry(r,a,t)
+  }
+}
+
 function toggle(){if(!cur)return;if(status==="playing"||status==="loading"){tok++;clearTimeout(timer);A.pause();setS("paused")}else start(cur)}
 A.onplaying=()=>{clearTimeout(timer);dead.delete(cur.id);setS("playing")};
 A.onpause=()=>{if(status!=="loading"&&status!=="error")setS("paused")};
-const stall=()=>{if(!cur||A.paused)return;setS("loading");clearTimeout(timer);const t=tok,r=cur;timer=setTimeout(()=>retry(r,0,t),10000)};
-A.onwaiting=stall;A.onstalled=stall;A.onerror=()=>{if(cur)retry(cur,att,tok)};
+const stall=()=>{if(!cur||A.paused)return;setS("loading");clearTimeout(timer);const t=tok,r=cur;timer=setTimeout(()=>retry(r,att,t),8000)};
+A.onwaiting=stall;A.onstalled=stall;A.onerror=()=>{if(cur)retry(cur,att+1,tok)};
 A.volume=store.get("ril-vol",.8);
 function toggleFav(id){favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];store.set("ril-fav",favs);if(location.hash.startsWith("#/preferiti"))route();else sync()}
 
@@ -247,7 +320,7 @@ function browser(host,{fixed={},q="",filters=true}={}){
   host.onclick=e=>{if(e.target.id==="more"){F.n+=60;draw()}if(e.target.id==="fclr"){F.q="";$("#fq").value="";draw()}};
   cities();if(fixed.genre&&$("#fgenre"))$("#fgenre").value=fixed.genre;draw()}
 
-/* ============ Pagine e routing (hash: #/radio, #/regioni/lazio, ...) ============ */
+/* ============ Pagine e routing ============ */
 const app=$("#app");
 const page={
   home(){app.innerHTML=`<section class="hero"><span class="pill glass"><span class="live"><i></i></span>In diretta, 24 ore su 24</span><h1 class="grad">Tutta la radio italiana.<br>In un unico posto.</h1><p class="mut">Scopri e ascolta centinaia di radio italiane in streaming, ovunque tu sia.</p>
@@ -267,7 +340,7 @@ function route(){const [path,qs]=(location.hash.slice(1)||"/").split("?"),seg=pa
   $("#nav").classList.remove("open");window.scrollTo(0,0);
   if(!radios){app.innerHTML='<div class="grid">'+'<div class="sk"></div>'.repeat(6)+"</div>";return}
   const p=seg[0]||"home";(page[p]||page.home)(p==="cerca"?new URLSearchParams(qs||"").get("q")||"":seg[1]);
-  if(demo)app.insertAdjacentHTML("afterbegin",'<p class="empty" style="padding:0 0 18px">⚠️ Playlist non raggiungibile (serve internet): mostro un elenco di esempio senza stream.</p>')}
+  if(demo)app.insertAdjacentHTML("afterbegin",'<p class="empty" style="padding:0 0 18px">⚠️ Playlist non raggiungibile: mostro l\'elenco delle principali stazioni radio di backup.</p>')}
 addEventListener("hashchange",route);
 
 /* ============ Eventi globali ============ */
